@@ -3,6 +3,8 @@ import com.mycompany.myapp.Role
 import com.mycompany.myapp.UserRole
 import com.mycompany.myapp.User
 
+import com.mycompany.myapp.Product
+
 class BootStrap {
 
     def init = { servletContext ->
@@ -23,6 +25,12 @@ class BootStrap {
             it.flush()
             it.clear()
          }
+
+
+         new Product(name:'iPhone7',description:'new iPhone 7 with latest features',price: 300).save()
+
+         new Product(name:'Pixel',description:'new Pixel mobile from Google',price: 350).save()
+
 
          assert User.count() == 3
          assert Role.count() == 2

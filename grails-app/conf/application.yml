@@ -97,7 +97,7 @@ hibernate:
 
 dataSource:
     pooled: true
-    dbCreate: "update"
+    dbCreate: "none"
     url: "jdbc:mysql://localhost:3306/my_kart_dev"
     driverClassName: "com.mysql.jdbc.Driver"
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
