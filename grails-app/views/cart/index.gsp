@@ -18,11 +18,14 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
+           <g:if test="${cart?.items?.size()>0}">
+
             <table>
                 <thead>
                 <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,12 +39,23 @@
                 </g:each>
                 </tbody>
             </table>
+            </g:if>
+            <g:else>
+            <h1>
+                Your cart is empty
+            </h1>
+            </g:else>
+        
+        <g:if test="${cart?.items?.size()>0}">
+        <div class="nav" role="navigation">
+            <ul>
+                <li><g:link controller="order" action="placeOrder" class="order" params="[id:cart.id]">Order</a></g:link></li>
 
-            <f:table collection="${cartList}" />
+            </ul>
+        </div>
+        </g:if>
 
-            <div class="pagination">
-                <g:paginate total="${cartCount ?: 0}" />
-            </div>
+
         </div>
     </body>
 </html>

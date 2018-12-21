@@ -12,6 +12,8 @@
     <asset:stylesheet src="application.css"/>
 
     <g:layoutHead/>
+    
+
 </head>
 <body>
 
@@ -25,8 +27,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/#">
-		    <asset:image src="grails.svg" alt="Grails Logo"/>
+		          <asset:image src="grails.svg" alt="Grails Logo"/>
+
+
                 </a>
+                    <div style="position:absolute;right: 10px;" class="nav" role="navigation">
+                    <ul>
+                        <sec:ifLoggedIn>
+                        <sec:ifAllGranted roles="ROLE_USER">
+                        <li>
+                            <a href="/profile"> My Profile  </a>
+                        </li>
+                        </sec:ifAllGranted>
+                        <li>
+                            <a href="/logout"> Logout  </a>
+                        </li>
+                        </sec:ifLoggedIn>
+                        <sec:ifNotLoggedIn>
+                        <li>
+                            <a href="/login"> Login  </a>
+                        </li>
+                        </sec:ifNotLoggedIn>
+                    </ul>
+                    </div>
             </div>
             <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
                 <ul class="nav navbar-nav navbar-right">

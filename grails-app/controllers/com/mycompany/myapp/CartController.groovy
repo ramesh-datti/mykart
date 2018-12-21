@@ -15,20 +15,29 @@ class CartController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
 
         def user = springSecurityService.currentUser
 
-        respond cartService.list(params), model:[cartCount: cartService.count()]
+        def cart = Cart.findByUser(user)
+
+        def total = 0
+        if (cart) {
+           total = cart?.items?.sum { it?.item?.price }
+        }else {
+            cart = new Cart()
+        }
+
+        respond cart, model:[user:user, total: total]
     }
 
     def show(Long id) {
 
         def user = springSecurityService.currentUser
 
+
         def cart =  cartService.get(id)
 
-        def total = cart?.items?.sum {it?.item?.price}
+        def total = cart?.items?.sum { it?.item?.price }
 
         respond cart, model:[user:user, total: total]
     }
@@ -42,7 +51,7 @@ class CartController {
 
         Cart cart= Cart.findByUser(user)
 
-        if(cart==null){
+        if (cart == null) {
             cart = new Cart(user:user)
         }
 
@@ -83,7 +92,7 @@ class CartController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'cart.label', default: 'Cart'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }

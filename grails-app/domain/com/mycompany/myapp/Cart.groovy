@@ -1,9 +1,8 @@
 package com.mycompany.myapp
 
-
 class Cart {
 
-	User user;
+	User user
 
 	static hasMany=[items:CartItem]
 

@@ -11,8 +11,5 @@ class CartItemSpec extends Specification implements DomainUnitTest<CartItem> {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
+
 }

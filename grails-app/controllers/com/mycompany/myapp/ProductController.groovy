@@ -5,7 +5,6 @@ import static org.springframework.http.HttpStatus.*
 
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured('ROLE_ADMIN')
 class ProductController {
 
     ProductService productService
@@ -13,10 +12,9 @@ class ProductController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    @Secured(['ROLE_ADMIN','ROLE_USER'])
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        User user=springSecurityService.currentUser
+        User user=springSecurityService?.currentUser
         Cart cart= Cart.findByUser(user)
         respond productService.list(params), model:[itemCount: productService.count(),cart:cart]
 
@@ -27,10 +25,12 @@ class ProductController {
         respond productService.get(id)
     }
 
+    @Secured(['ROLE_ADMIN'])
     def create() {
         respond new Product(params)
     }
 
+    @Secured(['ROLE_ADMIN'])
     def save(Product product) {
         if (product == null) {
             notFound()
@@ -53,10 +53,12 @@ class ProductController {
         }
     }
 
+    @Secured(['ROLE_ADMIN'])
     def edit(Long id) {
         respond productService.get(id)
     }
 
+    @Secured(['ROLE_ADMIN'])
     def update(Product product) {
         if (product == null) {
             notFound()
@@ -75,11 +77,12 @@ class ProductController {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product.id])
                 redirect product
             }
-            '*'{ respond product, [status: OK] }
+            '*' { respond product, [status: OK] }
         }
     }
 
-    def delete(Long id) {
+    @Secured(['ROLE_ADMIN'])
+   def delete(Long id) {
         if (id == null) {
             notFound()
             return
@@ -92,7 +95,7 @@ class ProductController {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'Product'), id])
                 redirect action:"index", method:"GET"
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
@@ -102,7 +105,7 @@ class ProductController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'product.label', default: 'Product'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }

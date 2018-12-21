@@ -12,10 +12,12 @@
                 <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 
                 <li>
-                    <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
-                   
+                    <sec:ifLoggedIn>
+                    <sec:ifAllGranted roles="ROLE_ADMIN">
+                        <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+                    </sec:ifAllGranted>
+                     </sec:ifLoggedIn>                   
                 </li>
-
                 <g:if test="${cart}">
                 <li>
                     <g:link controller="cart" action="show" params="[id:cart?.id]">My Cart</g:link>

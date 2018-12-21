@@ -4,7 +4,7 @@ class CartItem {
 
 	Cart cart
 
-	Product item 
+	Product item
 
 	Integer count = 1
 

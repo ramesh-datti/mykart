@@ -28,7 +28,7 @@ class OrderController {
         respond new Order(params)
     }
 
-    def placeOrder(){
+    def placeOrder() {
         def user = springSecurityService.currentUser
 
         def cart =  cartService.get(params.id)
@@ -39,27 +39,34 @@ class OrderController {
 
         def totalOrderPrice = 0
 
-        cart?.items?.each{
-            cartItem  ->             
+        if (!cart || !cart?.items || cart?.items?.size() == 0) {
+            flash.message = "Your Cart is empty, nothing to order"
+            redirect(url:'/order/index')
+            return
+        }
+
+        cart?.items?.each {
+            cartItem  ->
                 def orderItem = new OrderItem()
                 orderItem.item = cartItem.item
                 orderItem.count = cartItem.count
                 orderItem.itemPrice = cartItem.item.price
 
-                orderItem.totalPrice = cartItem.count*cartItem.item.price
+                orderItem.totalPrice = cartItem.count * cartItem.item.price
                 totalOrderPrice += orderItem.totalPrice
                 order.addToItems(orderItem)
                 cartItem.delete()
-            
         }
 
         order.totalOrderPrice = totalOrderPrice
 
         order.save()
 
-        cartService.delete(cart.id)
+        if (cart) {
+            cartService.delete(cart.id)
+        }
 
-        flash.message = "Order create successfully, new Order Id:"+order.id
+        flash.message = "Order create successfully, new Order Id: " + order.id
 
         redirect(url:'/order/index')
 
@@ -75,7 +82,7 @@ class OrderController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'order.label', default: 'Order'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }

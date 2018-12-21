@@ -3,9 +3,7 @@ package com.mycompany.myapp
 class Product {
 
 	String name
-	
 	String description
-
 	Double price
 
     static constraints = {

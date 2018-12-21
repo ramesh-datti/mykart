@@ -27,9 +27,15 @@ class BootStrap {
          }
 
 
-         new Product(name:'iPhone7',description:'new iPhone 7 with latest features',price: 300).save()
+         def product1 = Product.findByName("iPhone7")
+         if (!product1) {
+         	new Product(name:'iPhone7',description:'new iPhone 7 with latest features',price: 300).save()
+         }
 
-         new Product(name:'Pixel',description:'new Pixel mobile from Google',price: 350).save()
+         def product2 = Product.findByName("Pixel")
+         if (!product2) {
+        	 new Product(name:'Pixel',description:'new Pixel mobile from Google',price: 350).save()
+         }
 
 
          assert User.count() == 3

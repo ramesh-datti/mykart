@@ -11,8 +11,5 @@ class OrderItemSpec extends Specification implements DomainUnitTest<OrderItem> {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
+
 }
